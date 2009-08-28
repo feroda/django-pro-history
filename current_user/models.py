@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from chapter11.current_user import registration
+from current_user import registration
 
 class CurrentUserField(models.ForeignKey):
     def __init__(self, **kwargs):

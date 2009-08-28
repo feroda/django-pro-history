@@ -1,5 +1,14 @@
 # Django settings for djhistory project.
 
+"""
+This project has been developed for `M-FOSSET <http://m-fosset.cs.unibo.it>`__.
+
+Main goal is to improve Django history application with transparent historical ForeingKey support.
+
+History application has been written by Marthy Alchin.
+
+"""
+
 import os
 BASE_DIR = os.environ['DJHISTORY_HOME']
 VERSION = __version__ = file(BASE_DIR + '/VERSION').read().strip() 
@@ -79,6 +88,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+	'demo',
     'current_user',
     'history',
 )

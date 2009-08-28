@@ -3,8 +3,8 @@ import datetime
 
 from django.db import models
 
-from chapter11.current_user import models as current_user
-from chapter11.history import manager
+from current_user import models as current_user
+from history import manager
 
 class HistoricalRecords(object):
     def contribute_to_class(self, cls, name):
