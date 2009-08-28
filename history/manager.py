@@ -27,8 +27,8 @@ class HistoryManager(models.Manager):
         Returns the most recent copy of the instance available in the history.
         """
         if not self.instance:
-            raise TypeError("Can't use most_recent() without a %s instance." % \
-                            self.instance._meta.object_name)
+            raise TypeError("most_recent() is accessible only via history of %s instances " % \
+                            self.model._meta.object_name)
         fields = (field.name for field in self.instance._meta.fields)
         try:
             values = self.values_list(*fields)[0]
@@ -43,8 +43,8 @@ class HistoryManager(models.Manager):
         according to what was present on the object on the date provided.
         """
         if not self.instance:
-            raise TypeError("Can't use as_of() without a %s instance." % \
-                            self.instance._meta.object_name)
+            raise TypeError("as_of() is accessible only via history of %s instances " % \
+                            self.model._meta.object_name)
         fields = (field.name for field in self.instance._meta.fields)
         qs = self.filter(history_date__lte=date)
         try:
