@@ -1,0 +1,6 @@
+
+#1 Typo in exception raise when as_of and most_recent invoked without an instance [SOLVED]
+#2 Foreign Keys are not time-aware. instance.as_of(date).fk should return
+   fk.as_of(date) if history is present for fkk too, fk otherwise.
+#3 If fk.related_name is set (i.e. to reverse_fk) then instance.reverse_fk returns 
+   all historical records rather than instance related (time-aware if #2 is fixed) fk values

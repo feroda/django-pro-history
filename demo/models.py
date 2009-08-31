@@ -32,6 +32,8 @@ class OrgRole(models.Model):
 
 	org = models.ForeignKey(Organization)
 	person = models.ForeignKey(Person)
+	#BUG2
+    #person = models.ForeignKey(Person, related_name="roles")#TRY VALIDATE WITH THIS !
 	role = models.CharField(max_length=32)
 	
 	history = HistoricalRecords()

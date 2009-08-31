@@ -2,12 +2,14 @@ import copy
 import datetime
 
 from django.db import models
+from django.db.models.fields.related import RelatedField
 
 from current_user import models as current_user
 from history import manager
 
 class HistoricalRecords(object):
     def contribute_to_class(self, cls, name):
+        print "AAAAAA contribute of class %s" % cls.__name__
         self.manager_name = name
         models.signals.class_prepared.connect(self.finalize, sender=cls)
 
@@ -35,6 +37,7 @@ class HistoricalRecords(object):
         return type(name, (models.Model,), attrs)
 
     def copy_fields(self, model):
+        print "BBBBBBBBBBBBBBBB %s" % model.__name__
         """
         Creates copies of the model's original fields, returning
         a dictionary mapping field name to copied field object.
@@ -51,14 +54,22 @@ class HistoricalRecords(object):
                 # existing one must be replaced with an IntegerField.
                 field.__class__ = models.IntegerField
 
+            elif isinstance(field, RelatedField):
+                print "relativo %s %s %s" % (field.name, field.rel, field.rel.related_name)
+                if field.rel.related_name:
+                    #field.rel.related_name = None
+                    field.rel.related_name = "historical_%s" % field.rel.related_name
+
             if field.primary_key or field.unique:
                 # Unique fields can no longer be guaranteed unique,
                 # but they should still be indexed for faster lookups.
                 field.primary_key = False
                 field._unique = False
                 field.db_index = True
+
             fields[field.name] = field
 
+        print "CCCCCCCC"
         return fields
 
     def get_extra_fields(self, model):
