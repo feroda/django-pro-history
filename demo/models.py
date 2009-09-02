@@ -31,9 +31,7 @@ class Person(models.Model):
 class OrgRole(models.Model):
 
 	org = models.ForeignKey(Organization)
-	person = models.ForeignKey(Person)
-	#BUG2
-    #person = models.ForeignKey(Person, related_name="roles")#TRY VALIDATE WITH THIS !
+	person = models.ForeignKey(Person, related_name="roles")
 	role = models.CharField(max_length=32)
 	
 	history = HistoricalRecords()
