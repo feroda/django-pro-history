@@ -17,8 +17,14 @@ class SimpleTest(TestCase):
 __test__ = {"doctest": """
 Another way to test that 1 + 1 is equal to 2.
 
->>> 1 + 1 == 2
-True
+>>> from demo.models import *
+>>> import datetime
+>>> d = datetime.date(2007,1,1)
+>>> p = Person.objects.all()[0]
+>>> p2007 = p.history.as_of(d)
+>>> p2007.roles.all()[0]
+<OrgRole: Luca Ferroni `fero` (1) in LABS (30) (leader)>
+
 """}
 
 """

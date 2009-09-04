@@ -9,7 +9,7 @@ from history import manager
 
 class HistoricalRecords(object):
     def contribute_to_class(self, cls, name):
-        print "BEGIN\ncontribute to class %s" % cls.__name__
+        #print "BEGIN\ncontribute to class %s" % cls.__name__
         self.manager_name = name
         models.signals.class_prepared.connect(self.finalize, sender=cls)
 
@@ -37,7 +37,7 @@ class HistoricalRecords(object):
         return type(name, (models.Model,), attrs)
 
     def copy_fields(self, model):
-        print "History.copy_fields from %s" % model.__name__
+        #print "History.copy_fields from %s" % model.__name__
         """
         Creates copies of the model's original fields, returning
         a dictionary mapping field name to copied field object.
@@ -59,6 +59,7 @@ class HistoricalRecords(object):
                 if field.rel.related_name:
 				
                     # Copy rel attribute and rename its related_name 
+
                     field.rel = copy.copy(field.rel)
                     field.rel.related_name = "historical%s" % field.rel.related_name
 
@@ -71,7 +72,6 @@ class HistoricalRecords(object):
 
             fields[field.name] = field
 
-        print "END"
         return fields
 
     def get_extra_fields(self, model):

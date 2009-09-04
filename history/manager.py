@@ -1,4 +1,9 @@
 from django.db import models
+from django.db.models.fields.related import RelatedField
+
+import copy 
+from history import related
+#from history.descriptor import HistoricalObjectDescriptor
 
 class HistoryDescriptor(object):
     def __init__(self, model):
@@ -35,6 +40,7 @@ class HistoryManager(models.Manager):
         except IndexError:
             raise self.instance.DoesNotExist("%s has no historical record." % \
                                              self.instance._meta.object_name)
+        #TBD LF: check for "-" as in as_of ??!
         return self.instance.__class__(*values)
 
     def as_of(self, date):
@@ -55,4 +61,61 @@ class HistoryManager(models.Manager):
         if values[0] == '-':
             raise self.instance.DoesNotExist("%s had already been deleted." % \
                                              self.instance._meta.object_name)
-        return self.instance.__class__(*values[1:])
+        return self.create_instance(date, *values[1:])
+
+    def create_instance(self, date, *instance_values):
+        """Instantiate class with special attributes needed to follow external
+        relations in time-aware fashion
+   
+        :param date: as_of date
+        :type date: date or datetime instance
+
+        :param *instance_values: each arg needed to instantiate a new instance.__class__
+        :type instance_values: list of values
+
+        """
+        time_aware_model = self.create_instance_model(self.instance.__class__)
+
+        found_instance = time_aware_model(*instance_values)
+        found_instance._as_of = date
+        return found_instance
+        
+    def create_instance_model(self, model):
+        """
+        Creates time-aware model class to associate with the instance retrieved.
+        This class updates fields replacing related accessors with time-aware accessors.
+        """
+       
+        attrs = self.copy_fields(model)
+        #attrs['history_object'] = HistoricalObjectDescriptor(model),
+        #attrs['__unicode__'] = lambda self: u"%s" % self.history_object
+
+        # <-- Pay attention ! If you go twice back in history ?!?
+        name = "Actual%s" % model._meta.object_name
+        return type(name, (models.Model,), attrs)
+
+    def copy_fields(self, model):
+        print "HistoryManager.copy_fields from %s" % model.__name__
+        """
+        Creates copies of the model's original fields, returning
+        a dictionary mapping field name to copied field object.
+        """
+        # Though not strictly a field, this attribute
+        # is required for a model to function properly.
+        fields = {'__module__': model.__module__}
+
+        for field in model._meta.fields:
+
+            # Update only related fields 
+
+            field = copy.copy(field)
+
+            if isinstance(field, RelatedField):
+
+                field.__class__ = related.HistoricalForeignKey
+
+            fields[field.name] = field
+
+        return fields
+
+        
