@@ -10,7 +10,7 @@ class HistoricalReverseSingleRelatedObjectDescriptor(related.ReverseSingleRelate
     def __get__(self, instance, instance_type=None):
 
         rv = super(HistoricalReverseSingleRelatedObjectDescriptor, self).__get__(instance, instance_type)
-        print "AAAA instance=%s, rv=%s" % (instance, rv)
+        #LF print "AAAA instance=%s, rv=%s" % (instance, rv)
         if instance and rv:
             rv = rv.history.as_of(instance._as_of)
 
@@ -22,8 +22,7 @@ class HistoricalForeignKey(models.ForeignKey):
 
     def contribute_to_class(self, cls, name):
         rv = super(HistoricalForeignKey, self).contribute_to_class(cls, name)
-        # OVERRIDE descriptor !
-        print "OVVERRIDO"
+        # OVERRIDE foreign key descriptor !
         delattr(cls, self.name)
         setattr(cls, self.name, HistoricalReverseSingleRelatedObjectDescriptor(self))
         return rv

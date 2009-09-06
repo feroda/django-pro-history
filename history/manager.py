@@ -3,7 +3,6 @@ from django.db.models.fields.related import RelatedField
 
 import copy 
 from history import related
-from history.descriptor import HistoricalObjectDescriptor
 
 class HistoryDescriptor(object):
     def __init__(self, model):
@@ -91,12 +90,12 @@ class HistoryManager(models.Manager):
             return model
 
         attrs = self.copy_fields(model)
-        # This is needed to do not apply historical transformation twice
+        # _historical_model attribute is needed 
+		# to not define historical class twice
         attrs['_historical_model'] = True
-        attrs['history_object'] = HistoricalObjectDescriptor(model)
-        attrs['__unicode__'] = lambda self: u"%s" % self.history_object
-
-        name = "Actual%s" % model._meta.object_name
+        attrs['__unicode__'] = model.__unicode__.__func__
+		
+        name = "TimeAware%s" % model._meta.object_name
         return type(name, (models.Model,), attrs)
 
     def copy_fields(self, model):
