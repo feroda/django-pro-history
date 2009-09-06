@@ -1,5 +1,6 @@
 
 #1 [SOLVED] Typo in exception raise when as_of and most_recent invoked without an instance
-#2 Foreign Keys are not time-aware. instance.as_of(date).fk should return
-   fk.as_of(date) if history is present for fkk too, fk otherwise.
+#2 [SOLVED] Foreign Keys are not time-aware. instance.as_of(date).fk should return
+   fk.as_of(date) if history is present for fk too, fk otherwise.
 #3 [SOLVED] If fk.related_name is set (i.e. to reverse_fk) model does not validate
+#4 Reverse foreign keys accessors are not time-aware: Django creates reverse accessors in foreign keys target models. Default accessor name is fkname_set. These have to be time-aware too

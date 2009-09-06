@@ -12,7 +12,7 @@ class HistoricalReverseSingleRelatedObjectDescriptor(related.ReverseSingleRelate
         rv = super(HistoricalReverseSingleRelatedObjectDescriptor, self).__get__(instance, instance_type)
         #LF print "AAAA instance=%s, rv=%s" % (instance, rv)
         if instance and rv:
-            rv = rv.history.as_of(instance._as_of)
+            rv = rv._default_history.as_of(instance._as_of)
 
         return rv
 

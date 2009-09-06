@@ -99,7 +99,7 @@ class HistoryManager(models.Manager):
         return type(name, (models.Model,), attrs)
 
     def copy_fields(self, model):
-        print "HistoryManager.copy_fields from %s" % model.__name__
+        #LF print "HistoryManager.copy_fields from %s" % model.__name__
         """
         Creates copies of the model's original fields, returning
         a dictionary mapping field name to copied field object.
