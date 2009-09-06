@@ -3,7 +3,7 @@ from django.db.models.fields.related import RelatedField
 
 import copy 
 from history import related
-#from history.descriptor import HistoricalObjectDescriptor
+from history.descriptor import HistoricalObjectDescriptor
 
 class HistoryDescriptor(object):
     def __init__(self, model):
@@ -87,13 +87,13 @@ class HistoryManager(models.Manager):
         """
        
         if getattr(model, '_historical_model', False):
-            # Historical transformation has already been applied
+            # Model is an "historical model", no changes have to be applied
             return model
 
         attrs = self.copy_fields(model)
         # This is needed to do not apply historical transformation twice
         attrs['_historical_model'] = True
-        attrs['history_object'] = HistoricalObjectDescriptor(model),
+        attrs['history_object'] = HistoricalObjectDescriptor(model)
         attrs['__unicode__'] = lambda self: u"%s" % self.history_object
 
         name = "Actual%s" % model._meta.object_name

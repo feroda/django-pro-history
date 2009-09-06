@@ -6,6 +6,7 @@ from django.db.models.fields.related import RelatedField
 
 from current_user import models as current_user
 from history import manager
+from history.descriptor import HistoricalObjectDescriptor
 
 class HistoricalRecords(object):
     def contribute_to_class(self, cls, name):
@@ -116,10 +117,3 @@ class HistoricalRecords(object):
             attrs[field.attname] = getattr(instance, field.attname)
         manager.create(history_type=type, **attrs)
 
-class HistoricalObjectDescriptor(object):
-    def __init__(self, model):
-        self.model = model
-
-    def __get__(self, instance, owner):
-        values = (getattr(instance, f.attname) for f in self.model._meta.fields)
-        return self.model(*values)
