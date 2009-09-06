@@ -20,6 +20,9 @@ class Lecture(models.Model):
 
 	history = HistoricalRecords()
 
+	def __unicode__(self):
+		return u"%s with teacher %s" % (self.name, self.teacher)
+
 class Student(models.Model):
 	"""A student can attend just one lecture."""
 
@@ -30,5 +33,5 @@ class Student(models.Model):
 	history = HistoricalRecords()
 
 	def __unicode__(self):
-		return u"%s (attending lecture %s)" % (self.name, self.lecture)
+		return u"%s attending lecture %s" % (self.name, self.lecture)
 
