@@ -86,11 +86,16 @@ class HistoryManager(models.Manager):
         This class updates fields replacing related accessors with time-aware accessors.
         """
        
-        attrs = self.copy_fields(model)
-        #attrs['history_object'] = HistoricalObjectDescriptor(model),
-        #attrs['__unicode__'] = lambda self: u"%s" % self.history_object
+        if getattr(model, '_historical_model', False):
+            # Historical transformation has already been applied
+            return model
 
-        # <-- Pay attention ! If you go twice back in history ?!?
+        attrs = self.copy_fields(model)
+        # This is needed to do not apply historical transformation twice
+        attrs['_historical_model'] = True
+        attrs['history_object'] = HistoricalObjectDescriptor(model),
+        attrs['__unicode__'] = lambda self: u"%s" % self.history_object
+
         name = "Actual%s" % model._meta.object_name
         return type(name, (models.Model,), attrs)
 
@@ -118,4 +123,3 @@ class HistoryManager(models.Manager):
 
         return fields
 
-        
