@@ -1,3 +1,7 @@
+06.09.2009 Luca Ferroni <feroda@users.sourceforge.net>
+
+	* Solved time-aware foreign key bug 
+
 02.09.2009 Luca Ferroni <feroda@users.sourceforge.net>
 
 	* Solved foreign key related_name bug (#3 in BUGS)
