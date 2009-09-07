@@ -7,6 +7,15 @@ import datetime
 
 def main():
 
+	d = datetime.date(2010,1,1)
+	print("\nToday (write 2010 if you want this) the situation is...")
+	print("\n++++ Lecture snapshot at %s is ++++\n" % d )
+	for l in Lecture.objects.all():
+	  print("%s" % l)
+	print("\n++++ Student snapshot at %s is ++++\n" % d )
+	for s in Student.objects.all():
+	  print("%s" % s)
+
 	while True:
 
 		try:
