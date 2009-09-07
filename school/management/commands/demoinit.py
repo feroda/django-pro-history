@@ -5,6 +5,17 @@ import os, sys, types, re
 from school.models import *
 import datetime
 
+def update_most_recent_update(instance, d):
+	model = instance.__class__
+	pk_name = instance._meta.auto_field.name
+	for h in model.history.all():
+		# HistoricalObjects ordering is decreasing 'history_date'
+		# so the first is the most recent
+		if (getattr(h, pk_name) == instance.pk):
+			h.history_date = d	
+			h.save()
+			break
+
 def init_data():
 	"""Initialize some data"""
 	t1 = Teacher(name="Renzo Davoli")
@@ -49,51 +60,44 @@ def init_data():
 	# In 1998 rd starts teaching os
 	l1.teacher = t1
 	l1.save()
-	h = l1.history.most_recent()
-	h.history_date = datetime.date(1998,1,1)
-	h.save()
+	d = datetime.date(1998,1,1)
+	update_most_recent_update(l1, d)
 
 	# In 2000 j starts teaching vi
 	l2.teacher = t3
 	l2.save()
-	h = l2.history.most_recent()
-	h.history_date = datetime.date(2000,1,1)
-	h.save()
+	d = datetime.date(2000,1,1)
+	update_most_recent_update(l2, d)
 
 	# In 2004 rd starts teaching vi
 	l2.teacher = t1
 	l2.save()
-	h = l2.history.most_recent()
-	h.history_date = datetime.date(2004,1,1)
-	h.save()
+	d = datetime.date(2004,1,1)
+	update_most_recent_update(l2, d)
 
 	# In 1990 cb starts teaching sing
 	l3.teacher = t2
 	l3.save()
-	h = l3.history.most_recent()
-	h.history_date = datetime.date(1990,1,1)
-	h.save()
+	d = datetime.date(1990,1,1)
+	update_most_recent_update(l3, d)
 
 	# In 1995 cb starts teaching sing
 	l4.teacher = t2
 	l4.save()
-	h = l4.history.most_recent()
-	h.history_date = datetime.date(1995,1,1)
-	h.save()
+	d = datetime.date(1995,1,1)
+	update_most_recent_update(l4, d)
 
 	# In 2000 lf starts attending os
 	p1.lecture = l1
 	p1.save()
-	h = p1.history.most_recent()
-	h.history_date = datetime.date(2000,1,1)
-	h.save()
+	d = datetime.date(2000,1,1)
+	update_most_recent_update(p1, d)
 
 	# In 2003 lf starts attending vi
 	p1.lecture = l2
 	p1.save()
-	h = p1.history.most_recent()
-	h.history_date = datetime.date(2003,1,1)
-	h.save()
+	d = datetime.date(2003,1,1)
+	update_most_recent_update(p1, d)
 
 	p2.lecture = l3
 	p2.save()
@@ -102,7 +106,6 @@ def init_data():
 	p4.lecture = l3
 	p4.save()
 
-	# Change
 def main():
 
 	print("""A long time ago in a far far away galaxy ... 

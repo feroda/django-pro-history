@@ -10,18 +10,35 @@ def main():
 	while True:
 
 		try:
-			year = int(raw_input("When are you ? (only year please): "))
+			year = int(raw_input("\nWhen are you ? (year please or EOF to exit): "))
 			d = datetime.date(year,1,1)
 			
-			print("At %s the situation is..." % d)
+			# Lecture snapshot
+			print("\n++++ Lecture snapshot at %s is ++++\n" % d )
+			for s in Lecture.objects.all():
+				try:
+					print("%s" % s.history.as_of(d))
+				except Lecture.DoesNotExist, e:
+					print(e)
+
+			print("\n++++ Student snapshot at %s is ++++\n" % d )
+			# Student snapshot
 			for s in Student.objects.all():
 				try:
 					print("%s" % s.history.as_of(d))
 				except Student.DoesNotExist, e:
 					print(e)
+
 		except EOFError:
 			print
 			break
+
+		except Exception, e:
+			print e
+			
+		except KeyboardInterrupt, e:
+			print "\nKeyboardInterrupt ", e
+			
 
 class Command(NoArgsCommand):
 	help = "Run school demo application"
