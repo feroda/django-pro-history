@@ -25,9 +25,11 @@ def init_data():
 	# Set object insertion to 1970-01-01
 	for h in Teacher.history.all():
 		h.history_date = datetime.date(1970,1,1)
+		h.save()
 
 	for h in Lecture.history.all():
 		h.history_date = datetime.date(1970,1,1)
+		h.save()
 
 	p1 = Student(name="Luca Ferroni", birthdate=datetime.date(1980,2,17))
 	p1.save()
@@ -41,51 +43,69 @@ def init_data():
 	# Set student insertion to their birthdate
 	for h in Student.history.all():
 		h.history_date = h.birthdate
+		h.save()
 
 	# Do some change and make story
 	# In 1998 rd starts teaching os
 	l1.teacher = t1
-	for h in l1.history.most_recent():
-		h.history_object = datetime.date(1998,1,1)
+	l1.save()
+	h = l1.history.most_recent()
+	h.history_date = datetime.date(1998,1,1)
+	h.save()
 
 	# In 2000 j starts teaching vi
 	l2.teacher = t3
-	for h in l2.history.most_recent():
-		h.history_object = datetime.date(2000,1,1)
+	l2.save()
+	h = l2.history.most_recent()
+	h.history_date = datetime.date(2000,1,1)
+	h.save()
 
 	# In 2004 rd starts teaching vi
 	l2.teacher = t1
-	for h in l2.history.most_recent():
-		h.history_object = datetime.date(2004,1,1)
+	l2.save()
+	h = l2.history.most_recent()
+	h.history_date = datetime.date(2004,1,1)
+	h.save()
 
 	# In 1990 cb starts teaching sing
 	l3.teacher = t2
-	for h in l3.history.most_recent():
-		h.history_object = datetime.date(1990,1,1)
+	l3.save()
+	h = l3.history.most_recent()
+	h.history_date = datetime.date(1990,1,1)
+	h.save()
 
 	# In 1995 cb starts teaching sing
 	l4.teacher = t2
-	for h in l4.history.most_recent():
-		h.history_object = datetime.date(1995,1,1)
+	l4.save()
+	h = l4.history.most_recent()
+	h.history_date = datetime.date(1995,1,1)
+	h.save()
 
 	# In 2000 lf starts attending os
 	p1.lecture = l1
-	for h in p1.history.most_recent():
-		h.history_object = datetime.date(2000,1,1)
+	p1.save()
+	h = p1.history.most_recent()
+	h.history_date = datetime.date(2000,1,1)
+	h.save()
 
-	# In 2003 lf starts attending os
+	# In 2003 lf starts attending vi
 	p1.lecture = l2
-	for h in p1.history.most_recent():
-		h.history_object = datetime.date(2003,1,1)
+	p1.save()
+	h = p1.history.most_recent()
+	h.history_date = datetime.date(2003,1,1)
+	h.save()
 
 	p2.lecture = l3
+	p2.save()
 	p3.lecture = l1
+	p3.save()
 	p4.lecture = l3
+	p4.save()
 
 	# Change
 def main():
 
-	print("""A long time ago in a far away galaxy ... 
+	print("""A long time ago in a far far away galaxy ... 
 
 Someone in 1970-01-01 decides to organize the following lectures:
 
@@ -101,7 +121,7 @@ and to hire following teachers:
 * Claudio Baglioni (cb)
 
 - In 1990 cb starts teaching sing
-- In 1995 cb starts teaching sing
+- In 1995 cb starts teaching play
 - In 1998 rd starts teaching os
 - In 2000 j starts teaching vi
 - In 2004 rd starts teaching vi
@@ -112,7 +132,7 @@ Some students follow these lectures:
 * Mario Rossi (mr)
 
 - In 2000 lf starts attending os
-- In 2003 lf starts attending os
+- In 2003 lf starts attending vi
 
 	""")
 
@@ -123,7 +143,7 @@ Some students follow these lectures:
 	if not (teachers.count() or students.count() or lectures.count()):
 		init_data()
 
-	print("The situation is...")
+	print("Today the situation is...")
 	for s in students:
 	  print("%s" % s)
 

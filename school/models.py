@@ -16,7 +16,7 @@ class Lecture(models.Model):
 	"""A lecture is done by a teacher""" 
 
 	name = models.CharField(max_length=256)
-	teacher = models.ForeignKey(Teacher)
+	teacher = models.ForeignKey(Teacher, null=True)
 
 	history = HistoricalRecords()
 
