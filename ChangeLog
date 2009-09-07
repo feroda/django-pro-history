@@ -1,3 +1,7 @@
+07.09.2009 Luca Ferroni <feroda@users.sourceforge.net>
+
+	* Demo application done; manage.py demoinit and demo commands
+
 06.09.2009 Luca Ferroni <feroda@users.sourceforge.net>
 
 	* Solved time-aware foreign key bug 
