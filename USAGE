@@ -3,8 +3,7 @@ To test Django history foreign key support
 you require Django-1.x . 
 I tested it with 1.1 but 1.0 should work.
 
-* You get Django 1.1 final from 
-
+You get Django from http://www.djangoproject.com/
 
 # If you want to read the demo story just
 # cat DEMOSTORY

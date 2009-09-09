@@ -24,9 +24,31 @@ For my implementation I tested only as_of.
 
 WHAT I HAVE DONE
 
-Io ho fatto in modo che gli oggetti ritornati da questo as_of si comportano comprendendo
-di essere oggetti passati e quindi recuperano i valori delle proprie foreignkey e applicano
-il metodo as_of anche a queste ultime.
+I annotated some bugs/features (it depends from the point-of-view :) ) in BUGS. And I fixed the ones which relates to time-aware ForeignKey.
 
-Magari scrivo 2 righe di documentazione in un README nel pacchetto.
-Vedi tu se attenderlo per la correzione/valutazione
+Bug #2 is my goal for the exam in FOSSET Master .
+
+I created related.py module for HistoricalForeingKey field and descriptor,
+inspiring me from django/db/models/related.py
+
+Then I patched HistoryManager (history/manager.py)
+in a way that as_of method does not return original model instances,
+but creates new time-aware models on the fly 
+because I need to replace related ForeignKey fields with my 
+HistoricalForeignKey fields and descriptor.
+
+In this way, whenever you access an HistoricalForeignKey field of a
+TimeAwareModel instance, you retrieve the non time aware foreign key and you apply the as_of to the fkinstance retrieved.
+
+This can be done if the fkmodel defines its own HistoricalRecords field.
+The user can set arbitrary name for HistoricalRecords field,
+that's why there is another patch in history/models.py which
+set a known '_default_history' attribute in each original model which
+has an HistoricalRecords field.
+
+Another patch in history/models.py solves bug #3,
+and make some adjustement if related_name has been specified in a ForeignKey.
+
+In the end I wrote a demo `school` application and the story you find in DEMOSTORY.
+
+
