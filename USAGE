@@ -1,6 +1,13 @@
 
 To test Django history foreign key support
-you require Django-1.x
+you require Django-1.x . 
+I tested it with 1.1 but 1.0 should work.
+
+* You get Django 1.1 final from 
+
+
+# If you want to read the demo story just
+# cat DEMOSTORY
 
 # export DJHISTORY_HOME=/dir/of/your/djhistory/settings.py
 
@@ -12,34 +19,5 @@ If you want to change or init your db again
 # python manage.py reset school
 # python manage.py demoinit
 
-++++ The school demo story is : ++++
-
-A long time ago in a far far away galaxy ... 
-
-Someone in 1970-01-01 decides to organize the following lectures:
-
-* Operating System (os)
-* Virtual Insanity (vi)
-* Singing 'Questo piccolo grande amore' (sing)
-* Playing 'Questo piccolo grande amore' (play)
-
-and to hire following teachers:
-
-* Renzo Davoli (rd)
-* Jamiroquai (j)
-* Claudio Baglioni (cb)
-
-- In 1990 cb starts teaching sing
-- In 1995 cb starts teaching play
-- In 1998 rd starts teaching os
-- In 2000 j starts teaching vi
-- In 2004 rd starts teaching vi
-
-Some students follow these lectures:
-
-* Luca Ferroni (lf)
-* Mario Rossi (mr)
-
-- In 2000 lf starts attending os
-- In 2003 lf starts attending vi
+Enjoy your personal time machine ! :)
 

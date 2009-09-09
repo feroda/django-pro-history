@@ -1,0 +1,32 @@
+Hello, I am Luca `fero(da)` Ferroni,
+
+I am the author of foreign key time-aware feature for `history` django application.
+Marty Alchin does the initial (and great) work for
+`history`.
+
+I have just given my 2 cent.
+
+HOW HISTORY APPLICATION WORKS:
+
+Marty wrote some code that lets Django create one HistoricalModel for each model
+which defines an HistoricalRecords field. The HistoricalModel is quite a copy of
+the original model, and it adds some fields to keep track of:
+
+* user who made the change
+* datetime when change occurred
+* type of change occurred (add, modify, delete)
+
+Then Marty makes use of Django signals to update HistoricalModel on each change
+of original model record (add, modify, delete as i said before).
+
+You can retrieve historical records with methods as_of and most_recent.
+For my implementation I tested only as_of.
+
+WHAT I HAVE DONE
+
+Io ho fatto in modo che gli oggetti ritornati da questo as_of si comportano comprendendo
+di essere oggetti passati e quindi recuperano i valori delle proprie foreignkey e applicano
+il metodo as_of anche a queste ultime.
+
+Magari scrivo 2 righe di documentazione in un README nel pacchetto.
+Vedi tu se attenderlo per la correzione/valutazione
