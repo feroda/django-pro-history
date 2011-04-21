@@ -1,0 +1,18 @@
+
+Django History has been taken from "Pro Django"
+===============================================
+
+The main author of Django History is Marty Alchin in its great book "Pro Django".
+
+This fascinating module (battery?) adds generic history support for models.
+This is achieved simple by adding a manager to the model.
+
+I have improved it making Django History time-aware also of foreign keys
+then I have tried to contact Marty, but with no success, 
+so I decided (too much time later...) to publish my own fork.
+
+I publish my updates with AGPLv3. I can't find Marty license statements.
+
+See WHATIHAVEDONE to read more.
+
+Luca Ferroni <fero@jagom.org>
