@@ -1,3 +1,7 @@
-Luca Ferroni <feroda@users.sourceforge.net>
+The main author of Django History is Marty Alchin in its great book "Pro Django".
+
+I have hit a bug to make Django History time aware for foreign keys
+
+Luca Ferroni <fero@jagom.org>
 
 based on work of Marty Alchin (see WHATIHAVEDONE to read more)
