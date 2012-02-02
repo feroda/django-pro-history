@@ -50,20 +50,50 @@ class HistoricalRecords(object):
 
         for field in model._meta.fields:
             field = copy.copy(field)
+            fk = None
 
             if isinstance(field, models.AutoField):
                 # The historical model gets its own AutoField, so any
                 # existing one must be replaced with an IntegerField.
                 field.__class__ = models.IntegerField
 
-            elif isinstance(field, RelatedField):
+#KO:            elif isinstance(field, RelatedField):
 
-                if field.rel.related_name:
-				
-                    # Copy rel attribute and rename its related_name 
+#KO:                if field.rel.related_name:
+#KO:				
+#KO:                   # Copy rel attribute and rename its related_name 
+#KO:
+#KO:                    field.rel = copy.copy(field.rel)
+#KO:                    field.rel.related_name = "historical%s" % field.rel.related_name
 
-                    field.rel = copy.copy(field.rel)
-                    field.rel.related_name = "historical%s" % field.rel.related_name
+            if isinstance(field, models.ForeignKey):
+
+                field.__class__ = models.IntegerField
+
+                #ughhhh. open to suggestions here
+                try:
+                    field.rel = None
+                except:
+                    pass
+
+                try:
+                    field.related = None
+                except:
+                    pass
+
+                try:
+                    field.related_query_name = None
+                except:
+                    pass
+
+                field.null = True
+                field.blank = True
+                fk = True
+
+            else:
+
+                fk = False
+
 
             if field.primary_key or field.unique:
                 # Unique fields can no longer be guaranteed unique,
@@ -72,7 +102,13 @@ class HistoricalRecords(object):
                 field._unique = False
                 field.db_index = True
 
-            fields[field.name] = field
+            
+#KO:            fields[field.name] = field
+            if fk:
+                fields[field.name+"_id"] = field
+            else:
+                fields[field.name] = field
+
 
         return fields
 
