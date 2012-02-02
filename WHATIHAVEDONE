@@ -38,7 +38,8 @@ because I need to replace related ForeignKey fields with my
 HistoricalForeignKey fields and descriptor.
 
 In this way, whenever you access an HistoricalForeignKey field of a
-TimeAwareModel instance, you retrieve the non time aware foreign key and you apply the as_of to the fkinstance retrieved.
+TimeAwareModel instance, you retrieve the non time aware foreign key 
+and you apply the as_of to the fkinstance retrieved.
 
 This can be done if the fkmodel defines its own HistoricalRecords field.
 The user can set arbitrary name for HistoricalRecords field,

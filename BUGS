@@ -4,3 +4,17 @@
    fk.as_of(date) if history is present for fk too, fk otherwise.
 #3 [SOLVED] If fk.related_name is set (i.e. to reverse_fk) model does not validate
 #4 Reverse foreign keys accessors are not time-aware: Django creates reverse accessors in foreign keys target models. Default accessor name is fkname_set. These have to be time-aware too
+
+#5 [CRITICAL] Relates to ForeignKey management and specifically to ForeignKey NOT related to our base class
+#   (the class that has HistoricalRecords() manager).
+#
+#   If we delete an instance that has related instances that in turn support history,
+#   Django, with default CASCADE behaviour, goes like this:
+#   1. START transaction
+#   2. Find related instances of the to-be-deleted instance (OK)
+#   3. Deletes all related instances (OK)
+#   4. Delete instance (OK)
+#   5. AT THIS POINT django-pro-history:
+#      creates another related instance with "-" value for the operation
+#      (foreign key field now points for inexistent db record)
+#   6. COMMIT transaction --> IntegrityError raised
