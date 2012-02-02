@@ -35,6 +35,7 @@ class HistoricalRecords(object):
         attrs = self.copy_fields(model)
         attrs.update(self.get_extra_fields(model))
         attrs.update(Meta=type('Meta', (), self.get_meta_options(model)))
+        attrs.update(HistoryMeta=type('HistoryMeta', (), self.get_historymeta_options(model)))
         name = 'Historical%s' % model._meta.object_name
         return type(name, (models.Model,), attrs)
 
@@ -105,6 +106,20 @@ class HistoricalRecords(object):
             'ordering': ('-history_date',),
             'app_label': model._meta.app_label,
         }
+
+    def get_historymeta_options(self, model):
+        """Store related fields declarations."""
+
+        rv = {
+            'related_fields' : {},
+        }
+
+        for field in model._meta.fields:
+
+            if isinstance(field, RelatedField):
+                rv['related_fields'].update({field.name : field})
+
+        return rv
 
     def post_save(self, instance, created, **kwargs):
         self.create_historical_record(instance, created and '+' or '~')

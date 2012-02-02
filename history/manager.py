@@ -112,13 +112,16 @@ class HistoryManager(models.Manager):
 
             # Update only related fields 
 
-            field = copy.copy(field)
+            new_field = copy.copy(field)
 
-            if isinstance(field, RelatedField):
+            related_fields = model.HistoryMeta.related_fields
 
-                field.__class__ = related.HistoricalForeignKey
+            if new_field.name in related_fields.keys():
 
-            fields[field.name] = field
+                new_field = related_fields[field.name]
+                new_field.__class__ = related.HistoricalForeignKey
+
+            fields[field.name] = new_field
 
         return fields
 
