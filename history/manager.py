@@ -55,7 +55,8 @@ class HistoryManager(models.Manager):
         if not self.instance:
             raise TypeError("as_of() is accessible only via history of %s instances " % \
                             self.model._meta.object_name)
-#KO:        fields = (field.name for field in self.instance._meta.fields)
+
+#KO:    fields = (field.name for field in self.instance._meta.fields)
         tmp=[]
 
         for field in self.instance._meta.fields:
@@ -68,6 +69,7 @@ class HistoryManager(models.Manager):
 
         qs = self.filter(history_date__lte=date)
         try:
+            print("DEBUG: QuerySet found %s" % qs)
             values = qs.values_list('history_type', *fields)[0]
         except IndexError:
             raise self.instance.DoesNotExist("%s had not yet been created." % \
@@ -129,11 +131,12 @@ class HistoryManager(models.Manager):
 
             new_field = copy.copy(field)
 
-            related_fields = model.HistoryMeta.related_fields
+            # related_fields = model.HistoryMeta.related_fields
+            if isinstance(field, RelatedField): #or ForeignKey?!?
 
-            if new_field.name in related_fields.keys():
+            # if new_field.name in related_fields.keys():
 
-                new_field = related_fields[field.name]
+                # new_field = related_fields[field.name]
                 new_field.__class__ = related.HistoricalForeignKey
 
             fields[field.name] = new_field
