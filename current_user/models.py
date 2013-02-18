@@ -5,7 +5,10 @@ from current_user import registration
 
 class CurrentUserField(models.ForeignKey):
     def __init__(self, **kwargs):
-        super(CurrentUserField, self).__init__(User, null=True, **kwargs)
+        # Kwargs always rewritten needed to use in South migrations
+        kwargs['to'] = User
+        kwargs['null'] = True
+        super(CurrentUserField, self).__init__(**kwargs)
 
     def contribute_to_class(self, cls, name):
         super(CurrentUserField, self).contribute_to_class(cls, name)
