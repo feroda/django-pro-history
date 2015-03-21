@@ -1,4 +1,8 @@
-from django.conf.urls.defaults import *
+try:
+    from django.conf.urls import patterns, include, url
+except ImportError as e:
+    raise DeprecationWarning("Legacy url import needed for Django 1.3")
+    from django.conf.urls.defaults import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin

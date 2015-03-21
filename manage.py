@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+raise DeprecationWarning("manage.py will be removed when porting to Django 1.7 will be terminated")
 from django.core.management import execute_manager
 try:
     import settings # Assumed to be in the same directory.
