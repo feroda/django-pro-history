@@ -10,8 +10,8 @@ History application has been written by Marthy Alchin.
 """
 
 import os
-BASE_DIR = os.environ['DJHISTORY_HOME']
-VERSION = __version__ = file(BASE_DIR + '/VERSION').read().strip() 
+BASE_DIR = os.path.dirname(__file__)
+VERSION = __version__ = file(os.path.join(BASE_DIR, 'VERSION')).read().strip() 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
